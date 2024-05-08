@@ -1,0 +1,49 @@
+import tkinter as tk
+from tkinter import messagebox
+
+class ToDoList:
+    def __init__(self, root):
+        self.tasks = []
+        self.root = root
+        self.root.configure(bg="#F5F5DC")
+        
+        
+        self.listbox = tk.Listbox(root, width=76, height=10, bg="#ede1d3")
+        self.listbox.place(x=20, y=20)
+        
+        self.add_button = tk.Button(root, text="Add Task", command=self.add_task, bg='#322D31', fg="white")
+        self.add_button.place(x=220, y=250,) 
+
+        self.entry = tk.Entry(root,width=76,bg="#ede1d3")
+        self.entry.place(x=20, y=220) 
+
+
+        self.delete_button = tk.Button(root, text="Delete Task", command=self.delete_task, bg="#322D31",fg="white")
+        self.delete_button.place(x=215, y=190)  
+
+    def add_task(self):
+        task = self.entry.get()
+        if task != "":
+            self.tasks.append(task)
+            self.listbox.insert(tk.END, task)
+            self.entry.delete(0, tk.END)
+        else:
+            messagebox.showinfo("Warning", "Please enter a task.")
+
+    def delete_task(self):
+        try:
+            task_index = self.listbox.curselection()[0]
+            self.listbox.delete(task_index)
+            del self.tasks[task_index]
+        except:
+            messagebox.showinfo("Warning", "Please select a task to delete.")
+
+def main():
+    root = tk.Tk()
+    root.geometry("500x300")  # Adjusted for padding
+    root.title("To-Do List")
+    todo_list = ToDoList(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
